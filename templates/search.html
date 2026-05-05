@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Поиск по книгам -->
+
+<form action="/search" method="get" style="text-align: center;">
+    <input type="text" name="q" placeholder="Поиск по книгам" class="form-control" value="{{query}}">
+    <button type="submit" class="btn btn-primary">Поиск</button>
+</form>
+
+<!-- Книги -->
+
+<h1>Книги</h1>
+
+{% for item in books%}
+<a href="/books/{{item.id}}">
+<div class="col-md6 border rounded">
+    <h2>{{item.name}}</h2>
+    <div>
+        {{item.about}}
+    </div>
+    <div>
+        Дата добавления книги - {{item.created_date.strftime("%d.%m.%Y %H:%M")}}
+    </div>
+    <div>
+        Автор - {{item.owner.name}}
+    </div>
+</div>
+</a>
+{% endfor %}
+
+{% endblock %}

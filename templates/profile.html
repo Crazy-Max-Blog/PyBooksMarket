@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Профиль</h1>
+
+<h2>{{user.name}}</h2>
+<div>
+    Никнейм: {{user.nickname}}
+</div>
+<div>
+    О пользователе: {{user.about}}
+</div>
+<div>
+    Дата создания аккаунта - {{user.created_date.strftime("%d.%m.%Y %H:%M")}}
+</div>
+
+<a href="/edit_profile" class="btn btn-primary">Изменить профиль</a>
+<a href="/edit_password" class="btn btn-primary">Изменить пароль</a>
+
+{% if current_user.id == user.id %}
+<h1>Ваши книги</h1>
+{% else %}
+<h1>Книги пользователя {{user.name}}</h1>
+{% endif %}
+
+{% for item in books%}
+<a href="/books/{{item.id}}">
+<div class="col-md6 border rounded">
+    <h2>{{item.name}}</h2>
+    <div>
+        {{item.about}}
+    </div>
+    <div>
+        Дата добавления книги - {{item.created_date.strftime("%d.%m.%Y %H:%M")}}
+    </div>
+</div>
+</a>
+{% endfor %}
+
+{% if current_user.id == user.id %}
+<h1>Ваши лайки</h1>
+{% else %}
+<h1>Лайки пользователя {{user.name}}</h1>
+{% endif %}
+{% for item in user.likes%}
+<a href="/books/{{item.book.id}}">
+<div class="col-md6 border rounded">
+    <h2>{{item.book.name}}</h2>
+    <div>
+        {{item.book.about}}
+    </div>
+</div>
+</a>
+{% endfor %}
+
+{% endblock %}

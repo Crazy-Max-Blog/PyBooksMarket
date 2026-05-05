@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .image_box {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        position: relative;
+    }
+
+    @media only screen and (hover: none) and (pointer: coarse) and (orientation: portrait) {
+        .image_box {
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            overflow: hidden;
+            position: relative;
+        }
+    }
+</style>
+
+<h1>{{label}}</h1>
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <ul id="taskList" class="list-group mb-3" style="width: 50%;">
+        {% for image in images %}
+        <li class="list-group-item" data-id="{{ image.image }}">
+            <div class="image_box img-thumbnail">
+                <img src="/static/images/books/{{ image.image }}" alt="" style="width: 100%; height: 100%; object-fit: contain; object-position: center;">
+            </div>
+            <a class="btn btn-danger" href="/books/{{ book.id }}/delete_image/{{ image.position }}">Удалить</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    {{message}}
+</form>
+
+<a class="btn btn-primary" href="/books/{{book.id}}/add_image">Добавить изображение</a>
+
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+<script>
+    const taskList = document.getElementById('taskList');
+    const orderInput = document.getElementById('{{ form.order.id }}'); // ID скрытого поля
+
+    // Обновляем скрытое поле при изменениях
+    function updateOrder() {
+        const ids = [...taskList.querySelectorAll('.list-group-item')].map(el => el.dataset.id);
+        orderInput.value = JSON.stringify(ids);
+    }
+
+    // Записываем начальное состояние (на случай, если в форме уже есть данные)
+    updateOrder();
+
+    new Sortable(taskList, {
+        animation: 150,
+        ghostClass: 'bg-light',
+        chosenClass: 'border-primary',
+        onEnd: updateOrder
+    });
+</script>
+
+{% endblock %}

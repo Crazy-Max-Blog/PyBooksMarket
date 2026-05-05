@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Поиск по книгам -->
+
+<form action="/search" method="get" style="text-align: center;">
+    <input type="text" name="q" placeholder="Поиск по книгам" class="form-control">
+    <button type="submit" class="btn btn-primary">Поиск</button>
+</form>
+
+<!-- Курс валют -->
+
+{% if usd and euro %}
+<h5>Курс валют</h5>
+Доллар: {{usd}} руб.
+Euro: {{euro}} руб.
+{% endif %}
+
+{% endblock %}

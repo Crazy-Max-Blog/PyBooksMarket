@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Изменение изображений книги</h1>
+<form action="" method="post" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    {{ form.imageField.label }}<br>
+    
+    <div class="file-input-container">
+        <label class="btn btn-primary" for="imageField">Загрузить файл</label>
+        {{ form.imageField(class="form-control", accept="image/*", style="display: none;") }}<br>
+        <div style="display: flex;">
+            <label>Файл: </label>
+            <p id="file-name">Не выбрано</p>
+        </div>
+        <script>
+            document.getElementById('imageField').onchange = function() {
+                document.getElementById('file-name').innerHTML = this.files[0].name;
+            };
+        </script>
+    </div>
+    {% for error in form.imageField.errors %}
+        <p class="alert alert-danger" role="alert">
+            {{ error }}
+        </p>
+    {% endfor %}
+    {{ form.submit(class="btn btn-primary") }}
+    {{message}}
+</form>
+{% endblock %}
