@@ -191,7 +191,7 @@ def add_book():
         )
         db_sess.add(book)
         db_sess.commit()
-        return redirect(f"/edit_images/{book.id}")
+        return redirect(f"/books/{book.id}/edit_images")
     return render_template(
         "book_create.html",
         title="Добавление книги",
